@@ -1,0 +1,2 @@
+# npm-dictionaries
+npm dictionaries
