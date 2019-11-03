@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+  <input type="text" class="serach" oninput="input(this)" />
+  <ul class="result" id="result">
+  </ul>
+
+
+  <script src="./data.js"></script>
+  <script>
+    
+    const container = document.getElementById('result')
+
+    const render = data => {
+      const fragment = document.createDocumentFragment()
+
+      data.forEach(item => {
+        const package = item.package;
+        const desc = item.desc;
+        const key = item.key;
+        const li = document.createElement('li');
+
+        li.innerHTML = `<p>包名：<a target='_blank' href='https://www.npmjs.com/package/${package}'>${package}</a></p><p>作用描述：${desc}</p><p>关键字：${key.join('，')}</p>`
+
+        fragment.append(li)
+      })
+
+      return fragment;
+    }
+
+    
+    
+    const input = ele => {
+      const keyWorkd = ele.value;
+      const result = []
+
+
+      data.forEach(item => {
+        if (item.package.includes(keyWorkd) || item.desc.includes(keyWorkd) || item.key.includes(keyWorkd)) {
+          result.push(item)
+        }
+      })
+
+      if (result.length && keyWorkd !== '') {
+        container.innerHTML = ''
+        container.append(render(result))
+      } else {
+        container.innerHTML = ''
+      }
+    }
+
+  </script>
+</body>
+
+</html>

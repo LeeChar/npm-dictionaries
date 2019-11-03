@@ -1,0 +1,4 @@
+{
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false // 防止 tabSize 不生效
+}
