@@ -11,7 +11,7 @@
 
 <body>
   <h1>npm词典</h1>
-  <input type="text" class="serach" oninput="input(this)" />
+  <input type="text" class="serach" oninput="input(this)"/>
   <ul class="result" id="result">
   </ul>
 
@@ -25,12 +25,14 @@
       const fragment = document.createDocumentFragment()
 
       data.forEach(item => {
+        const oldPackage = item.oldPackage;
         const package = item.package;
         const desc = item.desc;
         const key = item.key;
         const li = document.createElement('li');
+        
 
-        li.innerHTML = `<p>包名：<a target='_blank' href='https://www.npmjs.com/package/${package}'>${package}</a></p><p>作用描述：${desc}</p><p>关键字：${key.join('，')}</p>`
+        li.innerHTML = `<p>包名：<a target='_blank' href='https://www.npmjs.com/package/${oldPackage}'>${package}</a></p><p>作用描述：${desc}</p><p>关键字：${key.join('，')}</p>`
 
         fragment.append(li)
       })
@@ -43,11 +45,15 @@
     const input = ele => {
       const keyWorkd = ele.value;
       const result = []
+      const reg = new RegExp(keyWorkd, 'g')
 
 
       data.forEach(item => {
         if (item.package.includes(keyWorkd) || item.desc.includes(keyWorkd) || item.key.includes(keyWorkd)) {
-          result.push(item)
+          let temp = JSON.stringify(item)
+          temp = JSON.parse(temp.replace(reg, `<span>${keyWorkd}</span>`))
+          temp.oldPackage = item.package
+          result.push(temp)
         }
       })
 
